@@ -1700,12 +1700,15 @@ const App = () => {
   }]
  
   const [activeTab, setActiveTab] = useState(0);
+  const [activeTabUps, setActiveTabUps] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
-
+  const handleTabChangeUps = (event, newValue) => {
+    setActiveTabUps(newValue);
+  };
  
 
  
@@ -2131,9 +2134,7 @@ const App = () => {
                             trackingData.package[0].activity[0].date
                           ).format("l")}{" "}
                           at{" "}
-                          {moment(
-                            trackingData.package[0].activity[0].date
-                          ).format("LT")}
+                          {moment(trackingData.package[0].activity[0].time, "HHmmss").format("LT")}
                         </Typography>
                         {/* <Typography
                           fontFamily={"inherit"}
@@ -2178,13 +2179,13 @@ const App = () => {
                           <AccordionDetails>
                             <Box marginLeft={"14px"}>
                               <TrackOverviewUps
-                                activeTab={activeTab}
+                                activeTab={activeTabUps}
                                 trackingData={trackingData}
                               />
                             </Box>
                           </AccordionDetails>
                         </Accordion>
-                        {/* <Accordion>
+                        <Accordion>
                           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             Shipment facts
                           </AccordionSummary>
@@ -2196,10 +2197,6 @@ const App = () => {
                               serviceDetail={
                                 trackingData.package[0].service
                               }
-                              standardTransitTimeWindow={
-                                trackingData.trackResults[0]
-                                  .standardTransitTimeWindow
-                              }
                               trackingNumberInfo={
                                 trackingData.package[0].trackingNumber
                               }
@@ -2208,7 +2205,7 @@ const App = () => {
                               }
                             />
                           </AccordionDetails>
-                        </Accordion> */}
+                        </Accordion>
                         <Accordion>
                           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             Travel history
@@ -2218,7 +2215,7 @@ const App = () => {
                               scanEvents={
                                 trackingData.package[0].activity
                               }
-                              activeTab={activeTab}
+                              activeTab={activeTabUps}
                             />
                           </AccordionDetails>
                         </Accordion>
@@ -2227,10 +2224,10 @@ const App = () => {
                   ) : (
                     <>
                       <Tabs
-                        value={activeTab}
+                        value={activeTabUps}
                         indicatorColor="secondary"
                         textColor="secondary"
-                        onChange={handleTabChange}
+                        onChange={handleTabChangeUps}
                       >
                         <Tab
                           sx={{ fontSize: "18px", fontWeight: "300" }}
@@ -2249,7 +2246,7 @@ const App = () => {
                         />
                       </Tabs>
 
-                      <Box role="tabpanel" hidden={activeTab !== 0}>
+                      <Box role="tabpanel" hidden={activeTabUps !== 0}>
                         <Grid
                           container
                           className={styles.container}
@@ -2380,36 +2377,32 @@ const App = () => {
                               {trackingData.package[0].trackingNumber}
                             </Typography>
                             <TrackOverviewUps
-                              activeTab={activeTab}
+                              activeTab={activeTabUps}
                               trackingData={trackingData}
                             />
                           </Grid>
                         </Grid>
                       </Box>
-                       {/* <Box role="tabpanel" hidden={activeTab !== 1}>
-                        <ShipmentFacts
-                          packageDetails={
-                            trackingData.trackResults[0].packageDetails
-                          }
-                          serviceDetail={
-                            trackingData.trackResults[0].serviceDetail
-                          }
-                          standardTransitTimeWindow={
-                            trackingData.trackResults[0]
-                              .standardTransitTimeWindow
-                          }
-                          trackingNumberInfo={
-                            trackingData.trackResults[0].trackingNumberInfo
-                          }
-                          dateAndTimes={
-                            trackingData.trackResults[0].dateAndTimes
-                          }
+                       <Box role="tabpanel" hidden={activeTabUps !== 1}>
+                        <ShipmentFactsUps
+                         packageDetails={
+                          trackingData.package[0].weight
+                        }
+                        serviceDetail={
+                          trackingData.package[0].service
+                        }
+                        trackingNumberInfo={
+                          trackingData.package[0].trackingNumber
+                        }
+                        dateAndTimes={
+                          trackingData.package[0].deliveryDate
+                        }
                         />
-                      </Box> */}
-                      <Box role="tabpanel" hidden={activeTab !== 2}>
+                      </Box>
+                      <Box role="tabpanel" hidden={activeTabUps !== 2}>
                         <TravelHistoryUps
                           scanEvents={trackingData.package[0].activity}
-                          activeTab={activeTab}
+                          activeTab={activeTabUps}
                         />
                       </Box> 
             

@@ -112,11 +112,11 @@ const TravelHistoryUps = ({ scanEvents, activeTab }) => {
             >
               <Typography fontFamily={"inherit"} fontSize="13px" color={"CaptionText"}>
                 {moment(event.date).format("dddd")},{" "}
-                {moment(event.date).format("L")}
+                {moment(event.time , "HHmmss").format("L")}
               </Typography>
 
               <Typography fontFamily={"inherit"} fontSize="12px" color={"GrayText"}>
-                {moment(event.date).format("LT")}
+                {moment(event.time , "HHmmss").format("LT")}
               </Typography>
             </Grid>
             <Grid item md={6} display="flex" alignItems="flex-start">
@@ -162,7 +162,7 @@ const TravelHistoryUps = ({ scanEvents, activeTab }) => {
                   </Typography>
 
                   <Typography fontFamily={"inherit"} fontSize="12px" color={"GrayText"}>
-                    {moment(event.date).format("LT")}
+                    {moment(event.time , "HHmmss").format("LT")}
                   </Typography>
                 </Box>
               </Box>

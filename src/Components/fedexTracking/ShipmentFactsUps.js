@@ -26,9 +26,9 @@ const ShipmentFactsUps = ({
   packageDetails,
   serviceDetail,
   trackingNumberInfo,
-  standardTransitTimeWindow,
   dateAndTimes
 }) => {
+  console.log("hey3" , packageDetails)
 
   const StyledBox = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('md')]: {
@@ -75,87 +75,41 @@ const ShipmentFactsUps = ({
     return data;
   }, [serviceDetail]);
 
-//   const processedPackageDetail = useMemo(() => {
-//     const data = [];
-//     const weightAndDimensions = packageDetails.weightAndDimensions;
-//     if (weightAndDimensions.weight && weightAndDimensions.weight.length) {
-//       const weightsArray = weightAndDimensions.weight.map(
-//         (item) => `${item.value} ${item.unit}`
-//       );
-//       if (weightsArray.length) {
-//         data.push({
-//           displayKey: "WEIGHT",
-//           value: weightsArray.join(" / "),
-//         });
-//       }
-//     }
-//     if (
-//       weightAndDimensions.dimensions &&
-//       weightAndDimensions.dimensions.length
-//     ) {
-//       let dimensions = weightAndDimensions.dimensions.find(
-//         (dimension) => dimension.units === "IN"
-//       );
-//       dimensions = dimensions || weightAndDimensions.dimensions[0];
-//       if (dimensions) {
-//         data.push({
-//           displayKey: "DIMENSIONS",
-//           value: `${dimensions.length}x${dimensions.width}x${dimensions.height} ${dimensions.units}`,
-//         });
-//       }
-//     }
-//     if (packageDetails.count) {
-//       data.push({
-//         displayKey: "TOTAL PIECES",
-//         value: packageDetails.count,
-//       });
-//     }
-//     if (packageDetails.physicalPackagingType) {
-//       data.push({
-//         displayKey: "PACKAGING",
-//         value: packageDetails.physicalPackagingType,
-//       });
-//     }
-//     return data;
-//   }, [packageDetails]);
-
+  const processedPackageDetail = useMemo(() => {
+    const data = [];
+    data.push({
+      displayKey: "WEIGHT",
+      value:  `${ packageDetails.weight} ${packageDetails.unitOfMeasurement}`,
+    });
+    return data;
+     
+    } , [packageDetails])
+   
+   
+   
   const processedShipmentOverview = useMemo(() => {
     const data = [];
-    if (trackingNumberInfo && trackingNumberInfo.trackingNumber) {
+    if (trackingNumberInfo) {
       data.push({
         displayKey: "TRACKING NUMBER",
-        value: trackingNumberInfo.package[0].trackingNumber,
+        value: trackingNumberInfo,
       });
     }
-    // if (
-    //   standardTransitTimeWindow &&
-    //   standardTransitTimeWindow.window &&
-    //   standardTransitTimeWindow.window.ends
-    // ) {
-    //   data.push({
-    //     displayKey: "EDTIMATED DELIVERY",
-    //     value: moment(standardTransitTimeWindow.window.ends).format("L"),
-    //   });
-    // }
-    // if(dateAndTimes && dateAndTimes.length){
-    //   dateAndTimes.forEach((item) => {
-    //     if(item.type === "ESTIMATED_DELIVERY"){
-    //       data.push({
-    //             displayKey: "EDTIMATED DELIVERY",
-    //             value: moment(item.dateTime).format("L"),
-    //           });
-    //     }
-    //     if(item.type === "SHIP"){
-    //       data.push({
-    //         displayKey: "SHIP DATE",
-    //         value: moment(item.dateTime).format("L"),
-    //       });
-    //     }
-    //   })
-    // }
+   
+    if(dateAndTimes && dateAndTimes.length){
+      dateAndTimes.forEach((item) => {
+        
+        if(item.type === "DEL"){
+          data.push({
+            displayKey: "SHIP DATE",
+            value: moment(item.date).format("L"),
+          });
+        }
+      })
+    }
     
     return data;
-  }, [trackingNumberInfo, standardTransitTimeWindow, dateAndTimes]);
+  }, [trackingNumberInfo, dateAndTimes]);
 
   return (
     <StyledBox>
@@ -222,7 +176,7 @@ const ShipmentFactsUps = ({
         </TableContainer>
       </Box>
 
-      {/* <Box marginTop={"28px"}>
+      <Box marginTop={"28px"}>
         <Typography fontFamily={"inherit"}
           display={"flex"}
           alignItems={"center"}
@@ -252,7 +206,7 @@ const ShipmentFactsUps = ({
             </TableBody>
           </Table>
         </TableContainer>
-      </Box> */}
+      </Box>
     </StyledBox>
   );
 };

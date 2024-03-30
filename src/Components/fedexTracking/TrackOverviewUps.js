@@ -133,7 +133,7 @@ const TrackOverviewUps = ({ trackingData, activeTab }) => {
         shimpentOriginData.note = {
           displayKey: "Label Created",
           value: `${moment(event.date).format("l")}, at ${moment(
-            event.date
+            event.time , "HHmmss"
           ).format("LT")}`,
         };
       }
@@ -141,31 +141,31 @@ const TrackOverviewUps = ({ trackingData, activeTab }) => {
         shipmentPickedUpData.location = `${event.location.address.city}, ${event.location.address.stateProvince}`;
         shipmentPickedUpData.dateTime = `${moment(event.date).format(
           "l"
-        )}, at ${moment(event.date).format("LT")}`;
+        )}, at ${moment(event.time , "HHmmss").format("LT")}`;
       }
 
       if (event.status.statusCode === OUT_FOR_DELIVERY) {
         shipmentOutForDeliveryData.location = `${event.location.address.city}, ${event.location.addressstateProvince}`;
         shipmentOutForDeliveryData.dateTime = `${moment(event.date).format(
           "l"
-        )}, at ${moment(event.date).format("LT")}`;
+        )}, at ${moment(event.time , "HHmmss").format("LT")}`;
       }
 
       if (event.status.statusCode === DELIVERED) {
         shipmentDeliveredData.location = `${event.location.address.city}, ${event.location.address.stateProvince}`;
         shipmentDeliveredData.dateTime = `${moment(event.date).format(
           "l"
-        )}, at ${moment(event.date).format("LT")}`;
+        )}, at ${moment(event.time , "HHmmss").format("LT")}`;
       }
     });
 
     const lastTransitData = scanEvents.find((event) => event.statusCode !== DELIVERED && event.statusCode !== OUT_FOR_DELIVERY && event.statusCode !== PICKED_UP && event.statusCode !== SHIPMENT_INITIATED);
     
     if(lastTransitData && (scanEvents[0].statusCode !== PICKED_UP || scanEvents[0].statusCode !== SHIPMENT_INITIATED)){
-      shipmentInTransit.location = `${lastTransitData.location.city}, ${lastTransitData.location.stateProvince}`;
+      shipmentInTransit.location = `${lastTransitData.location.address.city}, ${lastTransitData.location.address.stateProvince}`;
       shipmentInTransit.dateTime = `${moment(lastTransitData.date).format(
         "l"
-      )}, at ${moment(lastTransitData.date).format("LT")}`;
+      )}, at ${moment(lastTransitData.time , "HHmmss").format("LT")}`;
     }
     if (shipmentDeliveredData && shipmentDeliveredData.dateTime) {
       DATA.push(shipmentDeliveredData);
